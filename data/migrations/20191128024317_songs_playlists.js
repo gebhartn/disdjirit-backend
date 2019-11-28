@@ -1,7 +1,6 @@
 exports.up = function(knex) {
   return knex.schema.createTable("songs_playlists", table => {
     table.increments();
-    table.unique(["playlist_id", "creator"]);
     table
       .integer("song_id")
       .unsigned()
