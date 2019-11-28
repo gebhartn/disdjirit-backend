@@ -3,7 +3,9 @@ const db = require("../data/db-config");
 module.exports = {
   findPlaylistBy,
   createNewPlaylist,
-  findPlaylistByIdAndPlaylistName
+  findPlaylistByIdAndPlaylistName,
+  findSongBy,
+  createNewSong
 };
 
 // db playlists select
@@ -15,6 +17,17 @@ function findPlaylistBy(filter) {
 async function createNewPlaylist(playlist) {
   const [id] = await db("playlists").insert(playlist, "id");
   return findPlaylistBy({ id });
+}
+
+// db songs select
+function findSongBy(filter) {
+  return db("songs").where(filter);
+}
+
+// db songs insert
+async function createNewSong(song) {
+  const [id] = await db("songs").insert(song, "id");
+  return findSongBy({ id });
 }
 
 // joins
