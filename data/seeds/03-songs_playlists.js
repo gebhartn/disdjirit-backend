@@ -1,13 +1,8 @@
-
 exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
-    .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
-    });
+  return knex("songs_playlists").insert([
+    { playlist_id: 1, song_id: 1, creator: 22 },
+    { playlist_id: 1, song_id: 2, creator: 22 },
+    { playlist_id: 2, song_id: 3, creator: 33 },
+    { playlist_id: 2, song_id: 4, creator: 33 }
+  ]);
 };
