@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const Playlists = require("./playlists-model");
 
-// router.post("/find", async (req, res) => {
-//   console.log(req.body);
-// });
-
 router.get("/", async (req, res) => {
   res.status(200).json({ api: "good" });
+});
+
+router.post("/view", async (req, res) => {
+  console.log(req.body);
+  // findPlaylistByIdAndPlaylistName
 });
 
 router.post("/create", async (req, res) => {

@@ -37,7 +37,7 @@ async function addSongToPlaylist(song) {
 }
 
 // joins
-function findPlaylistByIdAndPlaylistName(id, name) {
+function findPlaylistByIdAndPlaylistName(name, id) {
   return db
     .select("p.name", "s.name", "s.url")
     .from("songs_playlists as sp")
