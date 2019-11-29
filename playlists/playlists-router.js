@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
 router.post("/create", async (req, res) => {
   const name = req.body.name;
   const test = await Playlists.findPlaylistBy({ name });
+
   if (test.length) {
     res.status(400).json({ err: "Playlist already exists" });
   } else {
@@ -23,6 +24,22 @@ router.post("/create", async (req, res) => {
       res.status(500).json({ error: "Server Error" });
       console.log({ err: err.message });
     }
+  }
+});
+
+router.post("/add", async (req, res) => {
+  const { playlist, creator, name, url } = req.body;
+  try {
+    const result = await Playlists.addSongFindPlaylistInsertSongToPlaylist(
+      playlist,
+      creator,
+      name,
+      url
+    );
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ error: "Server Error" });
+    console.log({ err: err.message });
   }
 });
 

@@ -5,7 +5,8 @@ module.exports = {
   createNewPlaylist,
   findPlaylistByIdAndPlaylistName,
   findSongBy,
-  createNewSong
+  createNewSong,
+  addSongFindPlaylistInsertSongToPlaylist
 };
 
 // db playlists select
@@ -30,6 +31,11 @@ async function createNewSong(song) {
   return findSongBy({ id });
 }
 
+// db songs_playlist
+async function addSongToPlaylist(song) {
+  return db("songs_playlists").insert(song, "id");
+}
+
 // joins
 function findPlaylistByIdAndPlaylistName(id, name) {
   return db
@@ -38,4 +44,31 @@ function findPlaylistByIdAndPlaylistName(id, name) {
     .join("songs as s", "s.id", "sp.song_id")
     .join("playlists as p", "p.id", "sp.playlist_id")
     .where({ "p.creator": id, "p.name": name });
+}
+
+// composition
+async function addSongFindPlaylistInsertSongToPlaylist(
+  playlist,
+  creator,
+  name,
+  url
+) {
+  // insert song to songs db
+  const Song = await createNewSong({ name, url });
+  // check if playlist exists
+  const Playlist = await findPlaylistBy({ name: playlist });
+  // if playlist creator matches user id: creator
+  if (Playlist.length && Playlist[0].creator === creator) {
+    // insert song + playlist to songs_playlists db
+    const SongAddedToPlaylist = await addSongToPlaylist({
+      playlist_id: parseInt(Playlist[0].id),
+      song_id: parseInt(Song[0].id),
+      creator: parseInt(creator)
+    });
+    // return songs_playlist id
+    return SongAddedToPlaylist;
+  } else {
+    // return falsy
+    return false;
+  }
 }
