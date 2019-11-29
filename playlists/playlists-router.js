@@ -6,8 +6,15 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/view", async (req, res) => {
-  console.log(req.body);
-  // findPlaylistByIdAndPlaylistName
+  const { playlist, creator } = req.body;
+  const result = await Playlists.findPlaylistByIdAndPlaylistName(
+    playlist,
+    creator
+  );
+  result.length
+    ? res.status(200).json(result)
+    : res.status(200).json({ err: "No playlist found" });
+  console.log(result);
 });
 
 router.post("/create", async (req, res) => {
