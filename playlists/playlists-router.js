@@ -51,4 +51,11 @@ router.post("/add", async (req, res) => {
   }
 });
 
+router.post("/find", async (req, res) => {
+  const { creator } = req.body;
+  const result = await Playlists.findPlaylistBy({ creator });
+  res.status(200).json(result);
+  console.log(result);
+});
+
 module.exports = router;
